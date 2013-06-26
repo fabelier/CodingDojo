@@ -1,30 +1,32 @@
-Gilded Rose
-===========
+Participants:
+============
+* Axel
+* Alex
+* Juan
+* Guillaume
 
-Hi and welcome to team Gilded Rose. As you know, we are a small inn with a prime location in a prominent city ran by a friendly innkeeper named Allison. We also buy and sell only the finest goods. Unfortunately, our goods are constantly degrading in quality as they approach their sell by date. We have a system in place that updates our inventory for us. It was developed by a no-nonsense type named Leeroy, who has moved on to new adventures. Your task is to add the new feature to our system so that we can begin selling a new category of items. First an introduction to our system:
+Topic
+=====
+See topic.md
 
-* All items have a SellIn value which denotes the number of days we have to sell the item
-* All items have a Quality value which denotes how valuable the item is
-* At the end of each day our system lowers both values for every item
+Retrospective:
+=============
+General perspective
+-------------------
+* First dojo at Fabelier !
+* It's been mainly a success: we had no major organizational issue, and attendance seemed rather interested
+* However: it lasted nearly 2 hours. We stopped because we started to saturate a bit. We may'd rather want to do shorter sessions next times
+* Even if the dojo was rather short, we used Git to save intermediate steps. We may have wanted to commit more often, to be able to review the steps we took afterward.
 
-Pretty simple, right? Well this is where it gets interesting:
+Regarding the topic itself
+--------------------------
+* We started doing a general end to end test, then a few more specific unit tests, before touching the main code. Hence, when we started refactoring, we had a safety net. However, we didn't took the time to write tests for each specific rules since we didn't want to spend most of the dojo writting tests before starting to refactor.
+* We naturally ended up doing several small refactorings rather than thinking of a big new design. It's been quite reassuring to be able to compile and play the tests quite often. And when they once failed, it's been quite easy and fast to undo what we just made
+* Consequently, we didn't do any OO programming. If we had more time we may have ended introducing acutal objects. In particular, at the end, we started to feel we could naturally subclass the Item class, introducing one class per type of item, and to use the behavior pattern to implement the different types of quality decrease. It seems it could have been a natural extension of what we did, since methods we extracted felt like they could have been moved more or less as-is, in such behavior
+* We completely forgot the feature we were supposed to add, because we only focused on refactoring... however, I think we ended up with a much cleaner code! (still ugly, but much cleaner!)
 
-* Once the sell by date has passed, Quality degrades twice as fast
-* The Quality of an item is never negative
-* "Aged Brie" actually increases in Quality the older it gets
-* The Quality of an item is never more than 50
-* "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
-* "Backstage passes", like aged brie, increases in Quality as it's SellIn value approaches; Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but Quality drops to 0 after the concert
-
-We have recently signed a supplier of conjured items. This requires an update to our system:
-
-* "Conjured" items degrade in Quality twice as fast as normal items
-
-Feel free to make any changes to the UpdateQuality method and add any new code as long as everything still works correctly. However, do not alter the Item class or Items property as those belong to the goblin in the corner who will insta-rage and one-shot you as he doesn't believe in shared code ownership (you can make the UpdateQuality method and Items property static if you like, we'll cover for you). Your work needs to be completed by Friday, February 18, 2011 08:00:00 AM PST.
-
-Just for clarification, an item can never have its Quality increase above 50, however "Sulfuras" is a legendary item and as such its Quality is 80 and it never alters.
-
-Credits
--------
-
-* written by [Terry Hughes](https://twitter.com/TerryHughes)
+Conclusion
+=========
+If we try again we should:
+* commit more often, to give a chronological view of the session
+* do shorted sessions, like 1h30.
