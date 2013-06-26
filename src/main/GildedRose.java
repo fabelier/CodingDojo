@@ -7,6 +7,10 @@ import java.util.List;
 public class GildedRose {
 
   private static List<Item> _items = null;
+  private static int MAX_QUALITY = 50;
+  private static int MIN_QUALITY = 0;
+  private static int PASSES_LIMIT = 10;
+  private static int PASSES_LIMIT_2 = 5;
 
   /**
    * @param args
@@ -28,21 +32,29 @@ public class GildedRose {
   }
 
   public static String print(List<Item> items){
-	  String result = "";
-	  for(Item item : items){
-		  result += print(item) + "\n";
-	  }
-	  return result;
+    String result = "";
+    for(Item item : items){
+      result += print(item) + "\n";
+    }
+    return result;
   }
 
   private static String print(Item item){
-	  String result = "";
-	  result += item.name + "-" + item.sellIn + "-" + item.quality;
-	  return result;
+    String result = "";
+    result += item.name + "-" + item.sellIn + "-" + item.quality;
+    return result;
   }
 
   private static void changeQuality(int delta, Item item){
-	  item.setQuality(item.getQuality() + delta);
+    int initialQuality = item.getQuality();
+    initialQuality += delta;
+    if ( isQualityInBounds(initialQuality)){
+      item.setQuality(item.getQuality() + delta);
+    }
+  }
+
+  private static boolean isQualityInBounds(int quality){
+    return quality >= MIN_QUALITY && quality <= MAX_QUALITY;
   }
 
 
@@ -50,73 +62,59 @@ public class GildedRose {
   {
     for (int i = 0; i < items.size(); i++)
     {
+      Item item = items.get(i);
       if ((!"Aged Brie".equals(items.get(i).getName())) && !"Backstage passes to a TAFKAL80ETC concert".equals(items.get(i).getName()))
       {
-        if (items.get(i).getQuality() > 0)
+
+        if (!"Sulfuras, Hand of Ragnaros".equals(item.getName()))
         {
-          if (!"Sulfuras, Hand of Ragnaros".equals(items.get(i).getName()))
-          {
-        	  changeQuality(-1, items.get(i));
-          }
+          changeQuality(-1, item);
         }
+
       }
       else
       {
-        if (items.get(i).getQuality() < 50)
+        changeQuality(1, item);
+
+        if ("Backstage passes to a TAFKAL80ETC concert".equals(item.getName()))
         {
-        	changeQuality(1, items.get(i));
-
-          if ("Backstage passes to a TAFKAL80ETC concert".equals(items.get(i).getName()))
+          if (item.getSellIn() <= PASSES_LIMIT)
           {
-            if (items.get(i).getSellIn() < 11)
-            {
-              if (items.get(i).getQuality() < 50)
-              {
-            	  changeQuality(1, items.get(i));
-              }
-            }
+            changeQuality(1, item);
+          }
 
-            if (items.get(i).getSellIn() < 6)
-            {
-              if (items.get(i).getQuality() < 50)
-              {
-            	  changeQuality(1, items.get(i));
-              }
-            }
+          if (item.getSellIn() <= PASSES_LIMIT_2)
+          {
+            changeQuality(1, item);
           }
         }
+
       }
 
-      if (!"Sulfuras, Hand of Ragnaros".equals(items.get(i).getName()))
+      if (!"Sulfuras, Hand of Ragnaros".equals(item.getName()))
       {
-        items.get(i).setSellIn(items.get(i).getSellIn() - 1);
+        item.setSellIn(item.getSellIn() - 1);
       }
 
-      if (items.get(i).getSellIn() < 0)
+      if (item.getSellIn() < 0)
       {
-        if (!"Aged Brie".equals(items.get(i).getName()))
+        if (!"Aged Brie".equals(item.getName()))
         {
-          if (!"Backstage passes to a TAFKAL80ETC concert".equals(items.get(i).getName()))
+          if (!"Backstage passes to a TAFKAL80ETC concert".equals(item.getName()))
           {
-            if (items.get(i).getQuality() > 0)
+            if (!"Sulfuras, Hand of Ragnaros".equals(item.getName()))
             {
-              if (!"Sulfuras, Hand of Ragnaros".equals(items.get(i).getName()))
-              {
-            	  changeQuality(-1, items.get(i));
-              }
+              changeQuality(-1, item);
             }
           }
           else
           {
-            items.get(i).setQuality(items.get(i).getQuality() - items.get(i).getQuality());
+            items.get(i).setQuality(item.getQuality() - item.getQuality());
           }
         }
         else
         {
-          if (items.get(i).getQuality() < 50)
-          {
-        	  changeQuality(1, items.get(i));
-          }
+          changeQuality(1, item);
         }
       }
     }
