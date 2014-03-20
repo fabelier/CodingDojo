@@ -1,0 +1,8 @@
+IA for http://vindinium.org, using the python API 
+
+To use it:
+- Clone the python API (https://github.com/ornicar/vindinium-starter-python)
+- Edit `client.py` to instantiate a `FablierBot` rather than a `RandomBot`
+- Override `bot.py` with this one
+- use `launch.sh` to launch a training game
+
